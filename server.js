@@ -3,8 +3,9 @@ const app = express();
 const path = require('path'); 
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const fileUpload = require('express-fileupload');
 
-const BlogPost = require('./models/BlogPost.js')
+const BlogPost = require('./models/BlogPost.js');
 
 
 
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost/mydatabase', {
 
 app.set('view engine', 'ejs')
 
+app.use(fileUpload());
 //bodyparser deprecated
 app.use(express.urlencoded({extended: true}));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
@@ -44,12 +46,18 @@ app.get('/post/:id', async (req, res) =>{
 })
 
 // POST
-app.post('/posts/store', async (req, res)=>{
-    //console.log(req.body)
-    // model creates a new doc with browser data
-    await BlogPost.create(req.body)
-    res.redirect('/')
-});
+app.post('/posts/store',async (req,res) =>{    
+    let image = req.files.image
+    image.mv(path.resolve(__dirname,'public/img',image.name),
+        async (error)=>{
+            await BlogPost.create({
+                ...req.body,                // img
+                image:'/img/' + image.name
+            })
+            res.redirect('/')
+        })
+
+})
 
 
 // pages routes 
