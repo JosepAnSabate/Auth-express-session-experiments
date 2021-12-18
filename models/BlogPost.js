@@ -11,7 +11,8 @@ const BlogPostSchema = new Schema({ //schema represents how a collection looks l
     image: String
 });
 
-const BlogPost = mongoose.model('BlogPost', BlogPostSchema); 
 //blogPost is a collection on mongo
+const BlogPost = mongoose.model('BlogPost', BlogPostSchema); 
+
 
 module.exports = BlogPost;
