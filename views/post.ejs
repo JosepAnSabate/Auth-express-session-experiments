@@ -21,8 +21,12 @@
     </div>
   </header>
   <img src="<%= blogpost.image %>" style="width:250px;height:300px;">
-
+  <a class="delete" data-doc="<%= blogpost._id %>">Elimina</a>
    <%- include('layouts/scripts');-%> 
+   <script src="/js/deletePost.js"></script>
+ <script>
+   
+ </script>
 
 </body>
 

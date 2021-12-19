@@ -19,6 +19,7 @@ const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser');
 const logoutController = require('./controllers/logout');
+const deletePostController = require('./controllers/deletePost')
 
 const getUserPostsController = require('./controllers/getUserPosts');
 
@@ -87,7 +88,10 @@ app.get('/post/:id', getPostController);
 //GET USERS POST
 app.get('/post/user/:userid', authMiddleware ,getUserPostsController)
 // POST
-app.post('/posts/store', authMiddleware ,storePostController);
+app.post('/posts/store', authMiddleware ,storePostController); //fetch from form!
+//DELETE
+app.delete('/post/:id', authMiddleware, deletePostController)
+
 
 // other pages routes 
 app.get('/about', (req,res) => { res.render('about'); });  // sense controller

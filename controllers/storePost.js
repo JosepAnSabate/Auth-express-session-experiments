@@ -18,12 +18,5 @@ module.exports = async (req, res) =>{
             ...req.body, 
             userid: req.session.userId})
         res.redirect('/')
-    //     async (error)=>{
-    //      await BlogPost.create({
-    //         ...req.body,
-    //         userid: req.session.userId 
-    //     })
-    //     res.redirect('/')
-    // }
-   // res.redirect('/')
+    
 }}
