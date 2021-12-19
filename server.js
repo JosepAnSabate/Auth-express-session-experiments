@@ -42,7 +42,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static('public')); 
 app.use(fileUpload());
-app.use('/posts/store',validateMiddleware);
+app.use('/posts/store',validateMiddleware);  //?
 // register the expressSession middleware in our app and pass ina a config. object
 // with a value to secret property. Secret string is used by the express session package to sign and encrypt the session id
 // you can of course provide your own secret string
