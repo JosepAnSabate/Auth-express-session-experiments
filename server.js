@@ -85,7 +85,7 @@ app.get('/', getPostsController); //home page get all posts
 // GET ONE 
 app.get('/post/:id', getPostController);
 //GET USERS POST
-app.get('/post/user/:userid', getUserPostsController)
+app.get('/post/user/:userid', authMiddleware ,getUserPostsController)
 // POST
 app.post('/posts/store', authMiddleware ,storePostController);
 
