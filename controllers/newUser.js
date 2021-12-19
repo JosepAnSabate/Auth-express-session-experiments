@@ -7,6 +7,7 @@ module.exports = (req,res) =>{
         username = data.username
         password = data.password
     }
+   
 
     res.render('register',{
         //errors: req.session.validationErrors

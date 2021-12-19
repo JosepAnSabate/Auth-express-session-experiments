@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 const BlogPostSchema = new Schema({ //schema represents how a collection looks like on atles
     title: String,
     body:String,
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',  //referencia a User Model.
+        required: true 
+    },  
     datePosted: {/* can declare property type with an object like this beacuse we need 'default'*/
         type: Date,
         default: new Date()

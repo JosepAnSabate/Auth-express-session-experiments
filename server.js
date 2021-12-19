@@ -20,8 +20,11 @@ const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser');
 const logoutController = require('./controllers/logout');
 
+const getUserPostsController = require('./controllers/getUserPosts');
+
 const authMiddleware = require("./middleware/authMiddleware");
-const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthenticatedMiddleware")
+const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthenticatedMiddleware");
+
 
 mongoose.connect('mongodb://localhost/mydatabase', {
     useNewUrlParser: true
@@ -39,8 +42,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static('public')); 
 app.use(fileUpload());
-app.use(flash());
-
 app.use('/posts/store',validateMiddleware);
 // register the expressSession middleware in our app and pass ina a config. object
 // with a value to secret property. Secret string is used by the express session package to sign and encrypt the session id
@@ -53,7 +54,7 @@ app.use(expressSession({
         maxAge: 1000 * 60 * 24 // Equals 1 day
     }
 }))
-
+app.use(flash());
 // we specify with the wildcard*, that on all requests, this
 // middleware should be executed. In it we assign loggedIn 
 // to req.session.userId
@@ -63,12 +64,19 @@ app.use("*",(req,res,next)=>{
 })
 
 ///////////////////////////////
+// initializating the server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => 
+    console.log(`Server runing on port ${PORT}`)
+);
+
 //Registration
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
 app.post('/users/register', storeUserController);
 //Login
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
-app.post('/users/login', loginUserController)
+app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 //Logout
 app.get('/auth/logout', logoutController)
 
@@ -76,6 +84,8 @@ app.get('/auth/logout', logoutController)
 app.get('/', getPostsController); //home page get all posts
 // GET ONE 
 app.get('/post/:id', getPostController);
+//GET USERS POST
+app.get('/post/user/:userid', getUserPostsController)
 // POST
 app.post('/posts/store', authMiddleware ,storePostController);
 
@@ -86,9 +96,3 @@ app.get('/posts/new', authMiddleware, newPostController);
 // 404
 app.use((req, res)=> res.render('notfound'));
 
-// initializating the server
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => 
-    console.log(`Server runing on port ${PORT}`)
-);
