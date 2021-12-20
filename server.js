@@ -19,7 +19,10 @@ const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser');
 const logoutController = require('./controllers/logout');
-const deletePostController = require('./controllers/deletePost')
+const deletePostController = require('./controllers/deletePost');
+
+const updatePostController = require('./controllers/updatePost');
+
 
 const getUserPostsController = require('./controllers/getUserPosts');
 
@@ -91,7 +94,8 @@ app.get('/post/user/:userid', authMiddleware ,getUserPostsController)
 app.post('/posts/store', authMiddleware ,storePostController); //fetch from form!
 //DELETE
 app.delete('/post/:id', authMiddleware, deletePostController)
-
+//UPDATE
+app.get('/post/update/:id', authMiddleware, updatePostController)
 
 // other pages routes 
 app.get('/about', (req,res) => { res.render('about'); });  // sense controller

@@ -14,16 +14,35 @@
           <div class="post-heading">
             <h1><%= blogpost.title %></h1>
             <h2 class="subheading"><%= blogpost.body %></h2>
-            
+            <h3 id="name"><%= blogpost._id %></h3>
           </div>
         </div>
       </div>
     </div>
   </header>
   <img src="<%= blogpost.image %>" style="width:250px;height:300px;">
-  <a class="delete" data-doc="<%= blogpost._id %>">Elimina</a>
+  <br> <br> <br>
+  <a class="delete" data-doc="<%= blogpost._id %>"><button  type="button" class="btn btn-danger" 
+    data-toggle="modal">Elimina </button></a>
+  
+  <button onclick="openForm()" type="button" class="btn btn-warning" 
+          data-toggle="modal" data-target="">Edita </button>
+
+  <div class="form-popup" id="myFormEdit">
+    <form action="" class="form-container">
+      <label><b>Nou títol: </b></label>
+      <input id="new-name" type="text" placeholder="Enter the new nane" name="" required>
+  
+      <label><b>Nova descripció: </b></label>
+      <input id="new-description" type="text" placeholder="Enter the new description" name="" required>
+  
+      <button type="submit" class="btn" onclick="editButton()">Edita</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Tanca</button>
+      </form>
+  </div>
    <%- include('layouts/scripts');-%> 
    <script src="/js/deletePost.js"></script>
+   <script src="/js/updatePost.js"></script>
  <script>
    
  </script>
