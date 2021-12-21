@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const expressSession = require('express-session');
 const flash = require('connect-flash'); //flashing error message from session
+const cors = require('cors')
 
 const BlogPost = require('./models/BlogPost'); //
 const validateMiddleware = require("./middleware/validationMiddleware");
@@ -31,7 +32,13 @@ const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthent
 
 
 mongoose.connect('mongodb://localhost/mydatabase', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+});
+
+//listen errors on connection
+mongoose.connection.on('error', err => {
+    console.log(err)
 });
 
 app.set('view engine', 'ejs');
@@ -47,6 +54,7 @@ app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static('public')); 
 app.use(fileUpload());
 app.use('/posts/store',validateMiddleware);  //?
+app.use(cors()); // enable cors
 // register the expressSession middleware in our app and pass ina a config. object
 // with a value to secret property. Secret string is used by the express session package to sign and encrypt the session id
 // you can of course provide your own secret string
@@ -95,7 +103,7 @@ app.post('/posts/store', authMiddleware ,storePostController); //fetch from form
 //DELETE
 app.delete('/post/:id', authMiddleware, deletePostController)
 //UPDATE
-app.get('/post/update/:id', authMiddleware, updatePostController)
+app.put('/post/update/:id', authMiddleware, updatePostController)
 
 // other pages routes 
 app.get('/about', (req,res) => { res.render('about'); });  // sense controller

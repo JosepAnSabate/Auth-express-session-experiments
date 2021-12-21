@@ -3,7 +3,7 @@
  const trashcan = document.querySelector('a.delete');
 
  trashcan.addEventListener('click', (e) => {
-     const endpoint = `/post/${trashcan.dataset.doc}`;
+     const endpoint = `/post/${trashcan.dataset.doc}`;  // dataset grabs data-doc from post ejs
 
      fetch(endpoint, {
          method: 'DELETE'

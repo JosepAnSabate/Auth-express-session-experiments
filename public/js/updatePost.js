@@ -12,7 +12,7 @@
   
     try {
       const response = fetch(`http://localhost:5000/post/update/${id}`, {
-        method: "GET",
+        method: "POST",
         headers: { "Content-Type": "application/json" }, //http header fields => application/json if the http response is json data   https://www.youtube.com/watch?v=iYM2zFP3Zn0
         body: JSON.stringify(newData)//{name, description, geom}
       });

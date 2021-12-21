@@ -2,17 +2,23 @@ const BlogPost = require('../models/BlogPost.js')
 
 module.exports = async (req,res) => {
     try {
-    const id = req.params.id;
+    const idPost = req.params.idpost;
     const updatetitle = req.title;
     const updatebody = req.body;
 
     const options = { new: true }
 
-    const blogupdate = await BlogPost.findByIdAndUpdate(id, updatetitle, updatebody, options)
-    
-    res.send(blogupdate);
+    const blogpost = await BlogPost.findByIdAndUpdate(idPost,{
+        title: updatetitle,
+        body: updatebody
+    })
+        //id, updatetitle, updatebody, options)
+    console.log(blogpost);
+    res.send(blogpost);
     } catch (error) {
         console.log(error.message);
     }
-    res.render('myposts')
+    res.render('post', {
+        blogpost
+    })
 }
