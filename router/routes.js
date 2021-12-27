@@ -1,7 +1,8 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
 
-const BlogPost = require('../models/BlogPost'); //
+const BlogPost = require('../models/BlogPost'); 
 const validateMiddleware = require("../middleware/validationMiddleware");
 
 const newPostController = require('../controllers/newPost');
@@ -23,6 +24,8 @@ const getUserPostsController = require('../controllers/getUserPosts');
 const authMiddleware = require("../middleware/authMiddleware");
 const redirectIfAuthenticatedMiddleware =require("../middleware/redirectIfAuthenticatedMiddleware");
 
+// middleware
+app.use('/posts/store',validateMiddleware);  //Check the fields that need to be written to sent a post
 
 //Registration
 router.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
@@ -39,12 +42,16 @@ router.get('/', getPostsController); //home page get all posts
 router.get('/post/:id', getPostController);
 //GET USERS POST
 router.get('/post/user/:userid', authMiddleware ,getUserPostsController)
+//GET ALL POSTS
+//router.get('/post')... 
 // POST
-router.post('/posts/store', authMiddleware ,storePostController); //fetch from form!
+router.post('/posts/store', authMiddleware, storePostController); //fetched from form
 //DELETE
 router.delete('/post/:id', authMiddleware, deletePostController)
 //UPDATE
 router.put('/post/update/:id', authMiddleware, updatePostController)
+
+
 
 // other pages routes 
 router.get('/about', (req,res) => { res.render('about'); });  // sense controller

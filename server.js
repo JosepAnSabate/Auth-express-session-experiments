@@ -7,25 +7,14 @@ const fileUpload = require('express-fileupload');
 const expressSession = require('express-session');
 const flash = require('connect-flash'); //flashing error message from session
 const cors = require('cors')
+// load enviornment variables
+const dotenv = require("dotenv");
+dotenv.config({ path: './config/config.env'});
 
-const BlogPost = require('./models/BlogPost'); //
+const BlogPost = require('./models/BlogPost'); 
 const validateMiddleware = require("./middleware/validationMiddleware");
 
-const newPostController = require('./controllers/newPost');
-const getPostsController = require('./controllers/getPosts');
-const getPostController = require('./controllers/getPost');
 const storePostController = require('./controllers/storePost');
-const newUserController = require('./controllers/newUser');
-const storeUserController = require('./controllers/storeUser')
-const loginController = require('./controllers/login')
-const loginUserController = require('./controllers/loginUser');
-const logoutController = require('./controllers/logout');
-const deletePostController = require('./controllers/deletePost');
-
-const updatePostController = require('./controllers/updatePost');
-
-
-const getUserPostsController = require('./controllers/getUserPosts');
 
 const authMiddleware = require("./middleware/authMiddleware");
 const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthenticatedMiddleware");
@@ -33,8 +22,9 @@ const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthent
 
 mongoose.connect('mongodb://localhost/mydatabase', {
     useNewUrlParser: true,
-    useUnifiedTopology: true 
-});
+    useUnifiedTopology: true })
+    .then(() => console.log('DataBase connected'))
+    .catch(e => console.log(e))
 
 //listen errors on connection
 mongoose.connection.on('error', err => {
@@ -53,7 +43,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static('public')); 
 app.use(fileUpload());
-app.use('/posts/store',validateMiddleware);  //?
+app.use('/posts/store',validateMiddleware);  //Check the fields that need to be written to sent a post
 app.use(cors()); // enable cors
 // register the expressSession middleware in our app and pass ina a config. object
 // with a value to secret property. Secret string is used by the express session package to sign and encrypt the session id
@@ -80,11 +70,14 @@ app.use("*",(req,res,next)=>{
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => 
-    console.log(`Server runing on port ${PORT}`)
+    console.log(`Server runing in ${process.env.NODE_ENV} mode on port ${PORT}`)
 );
+
 
 // routes from routes.js
 app.use('/', require('./router/routes'));
+
+
 
 // 404, use indica k estem usant middleware
 app.use((req, res)=> res.render('notfound'));
