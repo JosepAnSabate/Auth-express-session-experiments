@@ -83,32 +83,9 @@ app.listen(PORT, () =>
     console.log(`Server runing on port ${PORT}`)
 );
 
-//Registration
-app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController);
-app.post('/users/register', storeUserController);
-//Login
-app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController);
-app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
-//Logout
-app.get('/auth/logout', logoutController)
+// routes from routes.js
+app.use('/', require('./router/routes'));
 
-//CRUD ==> Create Read Update Delete
-app.get('/', getPostsController); //home page get all posts
-// GET ONE 
-app.get('/post/:id', getPostController);
-//GET USERS POST
-app.get('/post/user/:userid', authMiddleware ,getUserPostsController)
-// POST
-app.post('/posts/store', authMiddleware ,storePostController); //fetch from form!
-//DELETE
-app.delete('/post/:id', authMiddleware, deletePostController)
-//UPDATE
-app.put('/post/update/:id', authMiddleware, updatePostController)
-
-// other pages routes 
-app.get('/about', (req,res) => { res.render('about'); });  // sense controller
-app.get('/posts/new', authMiddleware, newPostController);
-
-// 404
+// 404, use indica k estem usant middleware
 app.use((req, res)=> res.render('notfound'));
 
