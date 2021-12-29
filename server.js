@@ -14,7 +14,7 @@ dotenv.config({ path: './config/config.env'});
 const BlogPost = require('./models/BlogPost'); 
 const validateMiddleware = require("./middleware/validationMiddleware");
 
-const storePostController = require('./controllers/storePost');
+const storePositionsController = require('./controllers/storePositions');
 
 const authMiddleware = require("./middleware/authMiddleware");
 const redirectIfAuthenticatedMiddleware =require("./middleware/redirectIfAuthenticatedMiddleware");
@@ -43,7 +43,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 app.use(express.static('public')); 
 app.use(fileUpload());
-app.use('/posts/store',validateMiddleware);  //Check the fields that need to be written to sent a post
+app.use('/positions/store',validateMiddleware);  //Check the fields that need to be written to sent a post
 app.use(cors()); // enable cors
 // register the expressSession middleware in our app and pass ina a config. object
 // with a value to secret property. Secret string is used by the express session package to sign and encrypt the session id
@@ -56,7 +56,7 @@ app.use(expressSession({
         maxAge: 1000 * 60 * 24 // Equals 1 day
     }
 }))
-app.use(flash());
+app.use(flash()); // express session
 // we specify with the wildcard*, that on all requests, this
 // middleware should be executed. In it we assign loggedIn 
 // to req.session.userId
@@ -73,11 +73,8 @@ app.listen(PORT, () =>
     console.log(`Server runing in ${process.env.NODE_ENV} mode on port ${PORT}`)
 );
 
-
 // routes from routes.js
 app.use('/', require('./router/routes'));
-
-
 
 // 404, use indica k estem usant middleware
 app.use((req, res)=> res.render('notfound'));

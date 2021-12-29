@@ -5,21 +5,25 @@ const router = express.Router();
 const BlogPost = require('../models/BlogPost'); 
 const validateMiddleware = require("../middleware/validationMiddleware");
 
-const newPostController = require('../controllers/newPost');
+const getAllPositionsController = require('../controllers/getAllPositions')
+
+const newPositionsController = require('../controllers/newPositions'); // get the new page, not the post
+const storePositionsController = require('../controllers/storePositions'); //POST
+
 const getPostsController = require('../controllers/getPosts');
-const getPostController = require('../controllers/getPost');
-const storePostController = require('../controllers/storePost');
+const getPositionController = require('../controllers/getPosition');
 const newUserController = require('../controllers/newUser');
 const storeUserController = require('../controllers/storeUser')
 const loginController = require('../controllers/login')
 const loginUserController = require('../controllers/loginUser');
 const logoutController = require('../controllers/logout');
-const deletePostController = require('../controllers/deletePost');
-
-const updatePostController = require('../controllers/updatePost');
+const deletePositionsController = require('../controllers/deletePositions');
 
 
-const getUserPostsController = require('../controllers/getUserPosts');
+const updatePositionsController = require('../controllers/updatePositions');
+
+
+const getUserPositionsController = require('../controllers/getUserPositions');
 
 const authMiddleware = require("../middleware/authMiddleware");
 const redirectIfAuthenticatedMiddleware =require("../middleware/redirectIfAuthenticatedMiddleware");
@@ -39,23 +43,25 @@ router.get('/auth/logout', logoutController)
 //CRUD ==> Create Read Update Delete
 router.get('/', getPostsController); //home page get all posts
 // GET ONE 
-router.get('/post/:id', getPostController);
+router.get('/position/:id', getPositionController);
 //GET USERS POST
-router.get('/post/user/:userid', authMiddleware ,getUserPostsController)
+router.get('/positions/user/:userid', authMiddleware ,getUserPositionsController)
 //GET ALL POSTS
-//router.get('/post')... 
+router.get('/positions/all', authMiddleware, getAllPositionsController)
 // POST
-router.post('/posts/store', authMiddleware, storePostController); //fetched from form
+router.post('/positions/store', authMiddleware, storePositionsController); //fetched from form
+router.get('/positions/new', authMiddleware, newPositionsController); // getting the page
+
 //DELETE
-router.delete('/post/:id', authMiddleware, deletePostController)
+router.delete('/positions/delete/:id', authMiddleware, deletePositionsController)
 //UPDATE
-router.put('/post/update/:id', authMiddleware, updatePostController)
+router.put('/positions/update/:id', authMiddleware, updatePositionsController)
 
 
 
 // other pages routes 
 router.get('/about', (req,res) => { res.render('about'); });  // sense controller
-router.get('/posts/new', authMiddleware, newPostController);
+
 
 
 module.exports =  router;
