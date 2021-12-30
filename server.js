@@ -39,8 +39,8 @@ app.set('view engine', 'ejs');
 global.loggedIn = null; 
 
 //bodyparser deprecated
-app.use(express.urlencoded({extended: true}));
-app.use(express.json()) // To parse the incoming requests with JSON payloads
+app.use(express.urlencoded({extended: true})); // formulari
+app.use(express.json()) // To parse the incoming requests with JSON payloads, fetch
 app.use(express.static('public')); 
 app.use(fileUpload());
 app.use('/positions/store',validateMiddleware);  //Check the fields that need to be written to sent a post

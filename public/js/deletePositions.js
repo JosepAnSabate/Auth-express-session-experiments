@@ -9,6 +9,6 @@
          method: 'DELETE'
      })
      .then((response) => response.json()) // parse a object data into a js object that we can use
-     .then((data) => window.location.href = data.redirect)
+     .then((data) => window.location.href = data.redirect) 
      .catch(err => console.log(err));
  });
