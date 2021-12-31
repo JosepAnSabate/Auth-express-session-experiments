@@ -41,7 +41,7 @@ router.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserControll
 router.get('/auth/logout', logoutController)
 
 //CRUD ==> Create Read Update Delete
-router.get('/', getPostsController); //home page get all posts
+router.get('/', getPostsController); //home page get my posts
 // GET ONE 
 router.get('/position/:id', getPositionController);
 //GET USERS POST

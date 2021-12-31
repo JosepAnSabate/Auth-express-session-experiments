@@ -1,7 +1,9 @@
 # Basic-architecture-Rest-api-with-express-session-authentification
 
-## Node.js-Express-Mongodb Rest api with user authentification using express session.
+## Node.js-Express-EJS-Mongodb Rest api with user authentification using express session.
 
+
+The db can manage images.
 
 
 ```bash
@@ -11,12 +13,13 @@ or
 npm start
 
 # Routes (development)
-Home		        http://localhost:5000
-Register            http://localhost:5000/auth/register
-Login               http://localhost:5000/auth/login
-Get one post        http://localhost:5000/post/:id
-Delete one post     http://localhost:5000/post/:id
-Get my posts        http://localhost:5000/post/user/:userid
+User positions	         http://localhost:5000
+Register                 http://localhost:5000/auth/register
+Login                    http://localhost:5000/auth/login
+Create position          http://localhost:5000/positions/store
+Get one position         http://localhost:5000/position/:id
+Delete one postition     http://localhost:5000/positions/delete/:id
+Update one positions     http://localhost:5000/positions/update/:id
 
 # Database (development, Mongodb Compass)
 mydatabase
